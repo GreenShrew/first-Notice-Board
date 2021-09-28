@@ -1,0 +1,71 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ page import="java.io.PrintWriter" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width" initial-scale="1">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<title>처음 만들어보는 JSP 웹 사이트</title>
+</head>
+<body>
+	<%		// 로그인이 된 사람들은 그 정보를 담을 수 있게 만듦
+		String userID = null;
+		if (session.getAttribute("userID") != null)	{	// 이미 세션이 존재하는 사람이라면, 이라는 뜻
+			userID = (String) session.getAttribute("userID");
+		}		//	로그인을 한 사람이라면 'userID'라는 변수에 해당 ID가 담길 것, 그렇지 않다면 null 값이 담긴다.
+	%>
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				aria-expanded="false">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="main.jsp">처음 만들어보는 JSP 게시판 웹 사이트</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="main.js">메인</a></li>
+				<li><a href="bbs.jsp">게시판</a></li>
+			</ul>
+			<%
+				if (userID == null) {
+			%>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">접속하기<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="login.jsp">로그인</a></li>
+						<li><a href="join.jsp">회원가입</a></li>
+					</ul>
+				</li>
+			</ul>
+			<%		
+				} else {
+			%>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">회원관리<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="join.jsp">로그아웃</a></li>
+					</ul>
+				</li>
+			</ul>
+			<%
+				}
+			%>
+
+		</div>
+	</nav> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script> 
+</body>
+</html>
