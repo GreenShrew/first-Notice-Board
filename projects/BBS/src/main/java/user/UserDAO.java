@@ -1,3 +1,5 @@
+// DAO class 는 데이터 접근 객체의 약자.
+// 실제로 DB에 접속해서 어떤 데이터를 빼올 수 있도록 해주는 역할.
 package user;
 
 import java.sql.Connection;

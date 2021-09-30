@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>jsp 게시판 웹사이트</title>
+<title>처음 만들어보는 JSP 웹 사이트 게시판</title>
 </head>
 <body>
 	<%
