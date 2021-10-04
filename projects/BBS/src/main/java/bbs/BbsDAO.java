@@ -98,11 +98,26 @@ public class BbsDAO {
 	}
 
 // 아래는 페이징 처리 방법
-	public Bbs nextPage(int pageNumber) {	// 게시글이 10, 20... 단위르 끊긴다면 글 다음 화면이 존재하지 않으므로 nextPage가 없다는것을 알려주는 퍼리
-		String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+	public boolean nextPage(int pageNumber) {	// 게시글이 10, 20... 단위르 끊긴다면 글 다음 화면이 존재하지 않으므로 nextPage가 없다는것을 알려주는 퍼리
+		String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);		// 위 ?에 들어갈 숫자
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;	// 결과가 없으면 다음 페이지로 넘어갈 수 없다
+	}
+	
+	public Bbs getBbs(int bbsID) {
+		String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				Bbs bbs = new Bbs();
@@ -117,21 +132,32 @@ public class BbsDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;	// 결과가 없으면 다음 페이지로 넘어갈 수 없다
+		return null;
 	}
 	
-	public void getBbs(int bbsID) {
-		String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+	public int update(int bbsID, String bbsTitle, String bbsContent) {
+		String SQL = "UPDATE BBS SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";	// 특정한 ID에 해당하는 제목과 내용을 바꾸겠다는 의미
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, bbsID);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {	
-			}
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, bbsContent);
+			pstmt.setInt(3, bbsID);
+			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return -1;
 	}
 	
+    public int delete(int bbsID) {
+        String SQL = "UPDATE BBS SET bbsAvailable = 0  WHERE bbsID = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bbsID);
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+	}
 }

@@ -10,6 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width", initial-scale="1" >  <!-- 반응형 웹에 사용하는 메타태그 -->
 <link rel="stylesheet" href="css/bootstrap.css"> <!-- 참조  -->
+<link rel="stylesheet" href="css/custom.css">
 <title>처음 만들어보는 JSP 웹 사이트 게시판</title>
 <!-- 아래는 게시판 제목을 디자인하는 부분, a 태그가 달린것들은 검은색으로, 밑줄 없음 -->
 <style type="text/css">
@@ -103,7 +104,7 @@
  					%>	<!-- 이 아래는 출력된 list에서 각각의 게시글에 대한 정보가 출력 -->
  					<tr>	<!-- 현재 게시글에 대한 정보를 가져올 수 있도록 만듦 -->
  						<td><%=list.get(i).getBbsID() %></td>	<!-- 데이터들을 DB에서 가져와서 그대로 보여주는 것 -->
- 						<td><a href="view.jsp?bbsID=<%=list.get(i).getBbsID()%>"><%=list.get(i).getBbsTitle() %></a></td>	<!-- 게시글 제목을 누르면 게시글 내용을 보여주는 페이지로 넘어가는 링크 첨부 -->
+ 						<td><a href="view.jsp?bbsID=<%=list.get(i).getBbsID()%>"><%=list.get(i).getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>") %></a></td>	<!-- 게시글 제목을 누르면 게시글 내용을 보여주는 페이지로 넘어가는 링크 첨부 -->
  						<td><%=list.get(i).getUserID() %></td>
  						<td><%=list.get(i).getBbsDate().substring(0, 11) + list.get(i).getBbsDate().substring(11, 13) + "시" + list.get(i).getBbsDate().substring(14, 16) + "분" %></td>	
  						<!-- 윗줄 Date 부분, DB에서 넘어오는 날짜시간 그대로가 아니라 내가 편집해서 출력한다. -->
